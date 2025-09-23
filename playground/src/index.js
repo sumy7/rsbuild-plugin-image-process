@@ -1,6 +1,6 @@
 import RsbuildLogo from './rsbuild-logo-large.png';
-import RsbuildLogoSmall from './rsbuild-logo-large.png?process-image';
-import RsbuildLogoSmall2 from './rsbuild-logo-large.png?process-image1';
+import RsbuildLogoSmall2 from './rsbuild-logo-large.png?process-image=resize,m_pad,w_100';
+import RsbuildLogoSmall from './rsbuild-logo-large.png?process-image=resize,w_100,h_100';
 import './index.css';
 
 document.querySelector('#root').innerHTML = `

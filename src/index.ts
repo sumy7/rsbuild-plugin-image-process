@@ -1,13 +1,10 @@
-import { dirname, join } from 'node:path';
+import { join } from 'node:path';
 import type { RsbuildPlugin } from '@rsbuild/core';
 
-export type PluginExampleOptions = {
-  foo?: string;
-  bar?: boolean;
-};
+export type PluginImageProcessOptions = {};
 
 export const pluginExample = (
-  options: PluginExampleOptions = {},
+  options: PluginImageProcessOptions = {},
 ): RsbuildPlugin => ({
   name: 'plugin-image-process',
 
@@ -16,10 +13,10 @@ export const pluginExample = (
     api.modifyBundlerChain((chain, { CHAIN_ID, isServer }) => {
       chain.module
         .rule('process-image')
-        .test(/\.(png|jpe?g|gif|webp)$/i)
+        .test(/\.(png|jpe?g|webp)$/i)
         .resourceQuery(/process-image/)
         .use('process-image-loader')
-        .loader(join(__dirname, './process-image-loader.cjs'));
+        .loader(join(__dirname, './loader.cjs'));
     });
   },
 });
