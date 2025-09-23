@@ -1,6 +1,6 @@
 {
   "name": "rsbuild-plugin-image-process",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": "https://github.com/sumy7/rsbuild-plugin-image-process",
   "license": "MIT",
   "type": "module",
