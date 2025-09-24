@@ -1,5 +1,9 @@
-import { join } from 'node:path';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import type { RsbuildPlugin } from '@rsbuild/core';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export type PluginImageProcessOptions = {};
 
@@ -16,7 +20,7 @@ export const pluginExample = (
         .test(/\.(png|jpe?g|webp)$/i)
         .resourceQuery(/process-image/)
         .use('process-image-loader')
-        .loader(join(__dirname, './loader.cjs'));
+        .loader(resolve(__dirname, './loader.mjs'));
     });
   },
 });

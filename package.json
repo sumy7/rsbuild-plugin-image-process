@@ -1,9 +1,20 @@
 {
   "name": "rsbuild-plugin-image-process",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repository": "https://github.com/sumy7/rsbuild-plugin-image-process",
-  "license": "MIT",
   "type": "module",
+  "license": "MIT",
+  "description": "A plugin for rsbuild to process image",
+  "keywords": [
+    "rsbuild-plugin",
+    "sharp",
+    "image-process",
+    "image-optimize"
+  ],
+  "homepage": "https://github.com/sumy7/rsbuild-plugin-image-process#readme",
+  "bugs": {
+    "url": "https://github.com/sumy7/rsbuild-plugin-image-process/issues"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -12,7 +23,6 @@
     }
   },
   "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
@@ -34,6 +44,7 @@
     "@playwright/test": "^1.53.2",
     "@rsbuild/core": "^1.4.2",
     "@rslib/core": "^0.10.4",
+    "@rspack/core": "^1.4.0",
     "@types/node": "^22.15.34",
     "playwright": "^1.53.2",
     "simple-git-hooks": "^2.13.0",

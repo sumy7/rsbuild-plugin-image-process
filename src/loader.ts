@@ -1,12 +1,13 @@
-const path = require('node:path');
-const { worker } = require('./worker.cjs');
-const {
+import * as path from 'node:path';
+import type { LoaderDefinition } from '@rspack/core';
+import {
   ABSOLUTE_URL_REGEX,
-  WINDOWS_PATH_REGEX,
   parseProcessImageQuery,
-} = require('./utils.cjs');
+  WINDOWS_PATH_REGEX,
+} from './utils.js';
+import { worker } from './worker.js';
 
-async function processImageLoader(source) {
+const processImageLoader: LoaderDefinition = async function (source) {
   const parsedQuery =
     this.resourceQuery.length > 0
       ? new URLSearchParams(this.resourceQuery)
@@ -39,12 +40,19 @@ async function processImageLoader(source) {
     query = query.length > 0 ? `?${query}` : '';
   }
 
+  if (!output.data) {
+    return source;
+  }
+
+  // @ts-ignore
   if (this._module && !this._module.matchResource) {
+    // @ts-ignore
     this._module.matchResource = `${output.filename}${query}`;
   }
 
   return output.data;
-}
+};
 
-processImageLoader.raw = true;
-module.exports = processImageLoader;
+export const raw = true;
+
+export default processImageLoader;

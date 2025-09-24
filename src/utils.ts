@@ -1,12 +1,12 @@
-const ABSOLUTE_URL_REGEX = /^[a-zA-Z][a-zA-Z\d+\-.]*?:/;
-const WINDOWS_PATH_REGEX = /^[a-zA-Z]:\\/;
-const POSIX_PATH_REGEX = /^\//;
+export const ABSOLUTE_URL_REGEX = /^[a-zA-Z][a-zA-Z\d+\-.]*?:/;
+export const WINDOWS_PATH_REGEX = /^[a-zA-Z]:\\/;
+export const POSIX_PATH_REGEX = /^\//;
 
 /**
  * @param {string} url URL
  * @returns {boolean} true when URL is absolute, otherwise false
  */
-function isAbsoluteURL(url) {
+export function isAbsoluteURL(url: string) {
   return (
     WINDOWS_PATH_REGEX.test(url) ||
     POSIX_PATH_REGEX.test(url) ||
@@ -21,7 +21,7 @@ function isAbsoluteURL(url) {
  * @param {string} query
  * @returns {Array<{ operation: string, params: string[] }>}
  */
-function parseProcessImageQuery(query) {
+export function parseProcessImageQuery(query: string) {
   return query.split('/').map((opStr) => {
     const [operation, ...params] = opStr.split(',');
     return { operation, params };
@@ -32,12 +32,15 @@ function parseProcessImageQuery(query) {
  * 解析操作参数, 例如 ["w_200", "h_200"] => { w: 200, h: 200 }
  * @param {Array<string>} params
  */
-function parseParams(params) {
-  return params.reduce((acc, param) => {
-    const [key, value] = param.split('_');
-    acc[key] = value || true;
-    return acc;
-  }, {});
+export function parseParams(params: string[]) {
+  return params.reduce(
+    (acc, param) => {
+      const [key, value] = param.split('_');
+      acc[key] = value || '';
+      return acc;
+    },
+    {} as Record<string, string>,
+  );
 }
 
 /**
@@ -48,8 +51,13 @@ function parseParams(params) {
  * @param {number} defaultValue
  * @returns
  */
-function numberInRange(value, min, max, defaultValue) {
-  const num = parseInt(value, 10);
+export function numberInRange(
+  value: string | number,
+  min: number,
+  max: number,
+  defaultValue: any,
+) {
+  const num = typeof value === 'string' ? parseInt(value, 10) : value;
   if (Number.isNaN(num)) {
     return defaultValue;
   }
@@ -63,20 +71,13 @@ function numberInRange(value, min, max, defaultValue) {
  * @param {string} defaultValue
  * @returns
  */
-function valueInList(value, options, defaultValue) {
+export function valueInList(
+  value: string,
+  options: string[],
+  defaultValue: any,
+) {
   if (options.includes(value)) {
     return value;
   }
   return defaultValue;
 }
-
-module.exports = {
-  ABSOLUTE_URL_REGEX,
-  WINDOWS_PATH_REGEX,
-  POSIX_PATH_REGEX,
-  isAbsoluteURL,
-  parseProcessImageQuery,
-  parseParams,
-  numberInRange,
-  valueInList,
-};

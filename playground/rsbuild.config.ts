@@ -1,6 +1,10 @@
 import { defineConfig } from '@rsbuild/core';
-import { pluginExample } from '../src';
+// @ts-ignore
+import { pluginExample } from '../dist';
 
 export default defineConfig({
   plugins: [pluginExample()],
+  output: {
+    dataUriLimit: 0,
+  },
 });

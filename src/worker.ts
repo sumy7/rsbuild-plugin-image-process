@@ -1,10 +1,21 @@
-const sharp = require('sharp');
-const { numberInRange, valueInList, parseParams } = require('./utils.cjs');
+import sharp from 'sharp';
+import { numberInRange, parseParams, valueInList } from './utils.js';
+
+type StepContext = {
+  image: sharp.Sharp;
+  metadata: sharp.Metadata;
+  operations: { operation: string; params: string[] }[];
+  stepParams: string[];
+  format: string;
+  filename: string;
+  quality: number;
+  data: Buffer | null;
+};
 
 /**
  * 处理 format 操作，参数 value，支持 jpeg,png,webp，不支持的格式则使用 webp
  */
-const formatStep = async (context) => {
+const formatStep = async (context: StepContext) => {
   const operation = context.operations.find((op) => op.operation === 'format');
   const params = parseParams(operation ? operation.params : []);
   const format = valueInList(
@@ -33,7 +44,7 @@ const formatStep = async (context) => {
 /**
  * 处理 quality 操作，参数 q_value|Q_value，范围 1-100，默认 100
  */
-const qualityStep = async (context) => {
+const qualityStep = async (context: StepContext) => {
   const operation = context.operations.find((op) => op.operation === 'quality');
   const params = parseParams(operation ? operation.params : []);
 
@@ -50,7 +61,7 @@ const qualityStep = async (context) => {
 /**
  * 处理 resize 操作，参数 w_value,h_value，范围 1-10000
  */
-const resizeStep = async (context) => {
+const resizeStep = async (context: StepContext) => {
   const operation = context.operations.find((op) => op.operation === 'resize');
   const params = parseParams(operation ? operation.params : []);
 
@@ -133,13 +144,13 @@ const resizeStep = async (context) => {
     }
 
     // pad 模式下处理背景色
-    const resizeOpts = { fit };
+    const resizeOpts = { fit, background: '#FFFFFF' };
     if (fit === 'contain') {
       resizeOpts.background = `#${color}`;
     }
 
     if (targetW || targetH) {
-      context.image = context.image.resize(targetW, targetH, resizeOpts);
+      context.image = context.image.resize(targetW, targetH, resizeOpts as any);
       let paramStr = `resize-w_${targetW || ''},h_${targetH || ''},m_${m}`;
       if (l) paramStr += `,l_${l}`;
       if (s) paramStr += `,s_${s}`;
@@ -150,7 +161,11 @@ const resizeStep = async (context) => {
   }
 };
 
-async function worker(input, filename, operations) {
+export async function worker(
+  input: string,
+  filename: string,
+  operations: { operation: string; params: string[] }[],
+) {
   const context = {
     // sharp 实例
     image: null,
@@ -160,6 +175,7 @@ async function worker(input, filename, operations) {
     operations,
     // 每一步操作的参数，最终会拼接到图片名称中
     stepParams: [],
+    // 图片格式，jpeg,png,webp
     format: null,
     // 图片名称，包含操作参数和最终
     filename: filename,
@@ -167,7 +183,7 @@ async function worker(input, filename, operations) {
     quality: 100,
     // 最终输出的图片数据
     data: null,
-  };
+  } as unknown as StepContext;
 
   try {
     const image = sharp(input);
@@ -196,7 +212,3 @@ async function worker(input, filename, operations) {
   }
   return context;
 }
-
-module.exports = {
-  worker,
-};
