@@ -7,7 +7,7 @@ const __dirname = dirname(__filename);
 
 export type PluginImageProcessOptions = {};
 
-export const pluginExample = (
+export const pluginImageProcess = (
   options: PluginImageProcessOptions = {},
 ): RsbuildPlugin => ({
   name: 'plugin-image-process',

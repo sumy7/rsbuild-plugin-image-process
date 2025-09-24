@@ -1,9 +1,9 @@
 import { defineConfig } from '@rsbuild/core';
 // @ts-ignore
-import { pluginExample } from '../dist';
+import { pluginImageProcess } from '../dist';
 
 export default defineConfig({
-  plugins: [pluginExample()],
+  plugins: [pluginImageProcess()],
   output: {
     dataUriLimit: 0,
   },
