@@ -14,9 +14,10 @@ export const pluginImageProcess = (
 
   setup(api) {
     // 注入自定义 loader 到 Rsbuild
-    api.modifyBundlerChain((chain, { CHAIN_ID, isServer }) => {
+    api.modifyBundlerChain((chain, { CHAIN_ID }) => {
       chain.module
         .rule('process-image')
+        .before(CHAIN_ID.RULE.IMAGE)
         .test(/\.(png|jpe?g|webp)$/i)
         .resourceQuery(/process-image/)
         .use('process-image-loader')

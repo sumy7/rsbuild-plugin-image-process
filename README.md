@@ -34,10 +34,10 @@ export default {
 You can pass processing parameters directly in the import statement:
 
 ```js
-import Image from './example.png?image-process=resize,w_100,h_100';
+import Image from './example.png?process-image=resize,w_100,h_100';
 ```
 
-The query string after `?image-process=` defines the processing steps and parameters.
+The query string after `?process-image=` defines the processing steps and parameters.
 
 ## Supported Operations & Parameters
 
@@ -77,7 +77,7 @@ The query string after `?image-process=` defines the processing steps and parame
 You can chain multiple operations:
 
 ```
-image-process=resize,w_200,h_200/format,webp/quality,q_80
+process-image=resize,w_200,h_200/format,webp/quality,q_80
 ```
 
 

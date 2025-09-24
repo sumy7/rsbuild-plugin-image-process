@@ -38,6 +38,7 @@ const formatStep = async (context: StepContext) => {
       context.image = context.image.webp({ quality: context.quality });
       break;
   }
+  context.format = format;
   context.stepParams.push(`format-${format}`);
 };
 
